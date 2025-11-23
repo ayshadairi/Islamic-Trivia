@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Question | The Golden Chain</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">The Shared Legacy</a></li>
+                <li><a href="game.html">Play Trivia</a></li>
+                <li><a href="add-question.html">Add a Question</a></li>
+            </ul>
+        </nav>
+        <h1>Add a Question</h1>
+        <p>Contribute to The Golden Chain</p>
+    </header>
+
+    <main>
+        <section class="form-container">
+            <div class="form-intro">
+                <h2>Share Your Knowledge</h2>
+                <p>Help expand our trivia database by adding questions about the shared heritage of Abrahamic faiths.</p>
+            </div>
+
+            <form id="questionForm" class="trivia-form">
+                <div class="form-group">
+                    <label for="question">Question:</label>
+                    <textarea id="question" name="question" required placeholder="Enter your trivia question here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Possible Answers:</label>
+                    <input type="text" id="answer1" required placeholder="Answer option 1">
+                    <input type="text" id="answer2" required placeholder="Answer option 2">
+                    <input type="text" id="answer3" required placeholder="Answer option 3">
+                    <input type="text" id="answer4" required placeholder="Answer option 4">
+                </div>
+
+                <div class="form-group">
+                    <label for="correctAnswer">Correct Answer:</label>
+                    <select id="correctAnswer" required>
+                        <option value="">Select the correct answer</option>
+                        <option value="1">Answer 1</option>
+                        <option value="2">Answer 2</option>
+                        <option value="3">Answer 3</option>
+                        <option value="4">Answer 4</option>
+                    </select>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="button">Add Question</button>
+                    <button type="reset" class="button secondary">Clear Form</button>
+                </div>
+            </form>
+
+            <div id="formMessage" class="form-message"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 The Golden Chain Trivia</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

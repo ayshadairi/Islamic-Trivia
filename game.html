@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Trivia | The Golden Chain</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">The Shared Legacy</a></li>
+                <li><a href="game.html">Play Trivia</a></li>
+                <li><a href="add-question.html">Add a Question</a></li>
+            </ul>
+        </nav>
+        <h1>Trivia Challenge</h1>
+        <p>Test Your Knowledge of The Golden Chain</p>
+    </header>
+
+    <main>
+        <!-- Game Info Section -->
+        <section id="gameInfo" class="game-info">
+            <div class="score-board">
+                <span>Question: <span id="currentQuestion">1</span>/10</span>
+                <span>Score: <span id="currentScore">0</span></span>
+            </div>
+        </section>
+
+        <!-- Game Area -->
+        <section id="gameArea" class="game-area">
+            <div id="startScreen" class="screen active">
+                <h2>Ready to Begin Your Journey?</h2>
+                <p>Answer 10 questions about the shared heritage of Abrahamic faiths. Test your knowledge of prophets, stories, and beliefs that connect Islam, Christianity, and Judaism.</p>
+                <button id="startBtn" class="button">Start Trivia Game</button>
+            </div>
+
+            <div id="questionScreen" class="screen">
+                <div class="question-card">
+                    <h2 id="questionText">Question will appear here</h2>
+                    <form id="answerForm" class="answers-form">
+                        <div class="answer-options">
+                            <label class="answer-option">
+                                <input type="radio" name="answer" value="0">
+                                <span id="option1">Option 1</span>
+                            </label>
+                            <label class="answer-option">
+                                <input type="radio" name="answer" value="1">
+                                <span id="option2">Option 2</span>
+                            </label>
+                            <label class="answer-option">
+                                <input type="radio" name="answer" value="2">
+                                <span id="option3">Option 3</span>
+                            </label>
+                            <label class="answer-option">
+                                <input type="radio" name="answer" value="3">
+                                <span id="option4">Option 4</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="button">Submit Answer</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="resultScreen" class="screen">
+                <div class="result-card">
+                    <h2 id="resultTitle">Result</h2>
+                    <p id="resultMessage">Your answer was correct!</p>
+                    <button id="nextBtn" class="button">Next Question</button>
+                </div>
+            </div>
+
+            <div id="endScreen" class="screen">
+                <div class="final-score">
+                    <h2>Journey Complete!</h2>
+                    <div class="score-circle">
+                        <span id="finalScore">0</span>/10
+                    </div>
+                    <p id="scoreMessage">Based on your score</p>
+                    <div class="end-buttons">
+                        <button id="restartBtn" class="button">Play Again</button>
+                        <a href="index.html" class="button secondary">Return Home</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 The Golden Chain Trivia</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
