@@ -1,0 +1,140 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #f5f5dc;
+    background-color: #1a1a1a;
+    background-image: url('path/to/subtle-texture.png'); 
+    background-size: cover;
+}
+
+h1, h2, h3 {
+    color: #D4AF37;
+    margin-bottom: 0.5em;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+header {
+    background-color: #111;
+    padding: 2rem 1rem;
+    border-bottom: 2px solid #D4AF37;
+    text-align: center;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #333;
+    color: #888;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+nav li {
+    margin: 0 1rem;
+}
+
+nav a {
+    color: #f5f5dc;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    color: #D4AF37;
+    border-color: #D4AF37;
+}
+
+.button {
+    display: inline-block;
+    background-color: transparent;
+    color: #D4AF37;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid #D4AF37;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #D4AF37;
+    color: #1a1a1a;
+}
+
+.cta-buttons {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.intro {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.fact-sheet h3 {
+    margin-top: 1.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.fact-sheet ul {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.fact-sheet li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav li {
+        margin: 0.25rem 0;
+    }
+
+    main {
+        padding: 0 1rem;
+    }
+}
