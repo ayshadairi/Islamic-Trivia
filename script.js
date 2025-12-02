@@ -1,3 +1,20 @@
+function initializeNavigation() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage) {
+            link.classList.add('active');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+        });
+    });
+}
+
 let questionPool = [
     {
         question: "In Islam, who is considered the first Prophet?",
@@ -83,33 +100,23 @@ let gameState = {
     usedQuestionIndices: new Set()
 };
 
-const startScreen = document.getElementById('startScreen');
-const questionScreen = document.getElementById('questionScreen');
-const resultScreen = document.getElementById('resultScreen');
-const endScreen = document.getElementById('endScreen');
-const startBtn = document.getElementById('startBtn');
-const nextBtn = document.getElementById('nextBtn');
-const restartBtn = document.getElementById('restartBtn');
-const answerForm = document.getElementById('answerForm');
-const questionForm = document.getElementById('questionForm');
-
 function initGame() {
-    if (startBtn) {
-        startBtn.addEventListener('click', startGame);
+    if (document.getElementById('startBtn')) {
+        document.getElementById('startBtn').addEventListener('click', startGame);
     }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', nextQuestion);
+    if (document.getElementById('nextBtn')) {
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
     }
-    if (restartBtn) {
-        restartBtn.addEventListener('click', restartGame);
+    if (document.getElementById('restartBtn')) {
+        document.getElementById('restartBtn').addEventListener('click', restartGame);
     }
-    if (answerForm) {
-        answerForm.addEventListener('submit', handleAnswerSubmit);
+    if (document.getElementById('answerForm')) {
+        document.getElementById('answerForm').addEventListener('submit', handleAnswerSubmit);
     }
-    if (questionForm) {
-        questionForm.addEventListener('submit', handleQuestionSubmit);
+    if (document.getElementById('questionForm')) {
+        document.getElementById('questionForm').addEventListener('submit', handleQuestionSubmit);
     }
-
+    
     loadSavedQuestions();
 }
 
@@ -128,9 +135,10 @@ function startGame() {
     gameState.usedQuestionIndices.clear();
     
     updateGameInfo();
-    showScreen(questionScreen);
+    showScreen(document.getElementById('questionScreen'));
     displayQuestion();
 }
+
 function selectRandomQuestions(count) {
     const selected = [];
     const availableIndices = [...Array(questionPool.length).keys()];
@@ -158,12 +166,13 @@ function displayQuestion() {
     document.getElementById('option2').textContent = currentQuestion.answers[1];
     document.getElementById('option3').textContent = currentQuestion.answers[2];
     document.getElementById('option4').textContent = currentQuestion.answers[3];
-
+    
     const radioButtons = document.querySelectorAll('input[name="answer"]');
     radioButtons.forEach(radio => radio.checked = false);
     
     updateGameInfo();
 }
+
 function handleAnswerSubmit(event) {
     event.preventDefault();
     
@@ -175,6 +184,7 @@ function handleAnswerSubmit(event) {
     
     const answerIndex = parseInt(selectedAnswer.value);
     const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+    
     if (answerIndex === currentQuestion.correct) {
         gameState.score++;
         showResult(true, currentQuestion.answers[currentQuestion.correct]);
@@ -197,14 +207,14 @@ function showResult(isCorrect, correctAnswer) {
         resultMessage.textContent = `The correct answer was: "${correctAnswer}"`;
     }
     
-    showScreen(resultScreen);
+    showScreen(document.getElementById('resultScreen'));
 }
 
 function nextQuestion() {
     gameState.currentQuestionIndex++;
     
     if (gameState.currentQuestionIndex < gameState.questions.length) {
-        showScreen(questionScreen);
+        showScreen(document.getElementById('questionScreen'));
         displayQuestion();
     } else {
         endGame();
@@ -216,7 +226,7 @@ function endGame() {
     const scoreMessage = document.getElementById('scoreMessage');
     
     finalScore.textContent = gameState.score;
-
+    
     if (gameState.score >= 9) {
         scoreMessage.textContent = 'Excellent! You have deep knowledge of the Abrahamic tradition!';
     } else if (gameState.score >= 7) {
@@ -227,11 +237,11 @@ function endGame() {
         scoreMessage.textContent = 'Keep learning! Visit the "Shared Legacy" page to understand the connections better.';
     }
     
-    showScreen(endScreen);
+    showScreen(document.getElementById('endScreen'));
 }
 
 function restartGame() {
-    showScreen(startScreen);
+    showScreen(document.getElementById('startScreen'));
 }
 
 function updateGameInfo() {
@@ -248,8 +258,7 @@ function updateGameInfo() {
 
 function showScreen(screen) {
     const screens = document.querySelectorAll('.screen');
-    screens.forEach(screen => screen.classList.remove('active'));
-
+    screens.forEach(s => s.classList.remove('active'));
     screen.classList.add('active');
 }
 
@@ -262,20 +271,21 @@ function handleQuestionSubmit(event) {
     const answer3 = document.getElementById('answer3').value;
     const answer4 = document.getElementById('answer4').value;
     const correctAnswer = parseInt(document.getElementById('correctAnswer').value) - 1;
-
+    
     if (!question || !answer1 || !answer2 || !answer3 || !answer4 || isNaN(correctAnswer)) {
         showFormMessage('Please fill in all fields and select the correct answer.', 'error');
         return;
     }
-
+    
     const newQuestion = {
         question: question,
         answers: [answer1, answer2, answer3, answer4],
         correct: correctAnswer
     };
-
+    
     questionPool.push(newQuestion);
     saveCustomQuestions();
+    
     showFormMessage('Question added successfully! Thank you for your contribution.', 'success');
     event.target.reset();
 }
@@ -289,11 +299,18 @@ function showFormMessage(message, type) {
     const messageElement = document.getElementById('formMessage');
     messageElement.textContent = message;
     messageElement.className = `form-message ${type}`;
-
+    
     if (type === 'success') {
         setTimeout(() => {
             messageElement.style.display = 'none';
         }, 3000);
     }
 }
-document.addEventListener('DOMContentLoaded', initGame);
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeNavigation();
+    
+    if (document.getElementById('gameArea') || document.getElementById('questionForm')) {
+        initGame();
+    }
+});
