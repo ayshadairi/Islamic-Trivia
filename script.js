@@ -15,6 +15,40 @@ function initializeNavigation() {
     });
 }
 
+function displayMyQuestions() {
+    const savedQuestions = localStorage.getItem('customQuestions');
+    const questionsList = document.getElementById('myQuestionsList');
+    
+    if (!questionsList) return;
+    
+    if (savedQuestions) {
+        try {
+            const customQuestions = JSON.parse(savedQuestions);
+            
+            if (customQuestions.length === 0) {
+                questionsList.innerHTML = '<p class="question-item">No questions added yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            customQuestions.forEach((q, index) => {
+                html += `
+                    <div class="question-item">
+                        <strong>Q${index + 1}:</strong> ${q.question.substring(0, 60)}...
+                        <br><small>Correct: ${q.answers[q.correct]}</small>
+                    </div>
+                `;
+            });
+            
+            questionsList.innerHTML = html;
+        } catch (error) {
+            questionsList.innerHTML = '<p class="question-item">Error loading questions.</p>';
+        }
+    } else {
+        questionsList.innerHTML = '<p class="question-item">No questions added yet.</p>';
+    }
+}
+
 let questionPool = [
     {
         question: "In Islam, who is considered the first Prophet?",
@@ -93,6 +127,28 @@ let questionPool = [
     }
 ];
 
+function loadSavedQuestions() {
+    const savedQuestions = localStorage.getItem('customQuestions');
+    if (savedQuestions) {
+        try {
+            const customQuestions = JSON.parse(savedQuestions);
+            
+            questionPool = [
+                ...questionPool.slice(0, 15),
+                ...customQuestions
+            ];
+            
+        } catch (error) {
+            console.error('Error loading saved questions:', error);
+        }
+    }
+}
+
+function saveCustomQuestions() {
+    const customQuestions = questionPool.slice(15);
+    localStorage.setItem('customQuestions', JSON.stringify(customQuestions));
+}
+
 let gameState = {
     currentQuestionIndex: 0,
     score: 0,
@@ -118,14 +174,7 @@ function initGame() {
     }
     
     loadSavedQuestions();
-}
-
-function loadSavedQuestions() {
-    const savedQuestions = localStorage.getItem('customQuestions');
-    if (savedQuestions) {
-        const customQuestions = JSON.parse(savedQuestions);
-        questionPool = [...questionPool, ...customQuestions];
-    }
+    updateDebugInfo();
 }
 
 function startGame() {
@@ -187,10 +236,47 @@ function handleAnswerSubmit(event) {
     
     if (answerIndex === currentQuestion.correct) {
         gameState.score++;
+    }
+    
+    updateGameInfo();
+    
+    if (answerIndex === currentQuestion.correct) {
         showResult(true, currentQuestion.answers[currentQuestion.correct]);
     } else {
         showResult(false, currentQuestion.answers[currentQuestion.correct]);
     }
+}
+
+function handleQuestionSubmit(event) {
+    event.preventDefault();
+    
+    const question = document.getElementById('question').value;
+    const answer1 = document.getElementById('answer1').value;
+    const answer2 = document.getElementById('answer2').value;
+    const answer3 = document.getElementById('answer3').value;
+    const answer4 = document.getElementById('answer4').value;
+    const correctAnswer = parseInt(document.getElementById('correctAnswer').value) - 1;
+    
+    if (!question || !answer1 || !answer2 || !answer3 || !answer4 || isNaN(correctAnswer)) {
+        showFormMessage('Please fill in all fields and select the correct answer.', 'error');
+        return;
+    }
+    
+    const newQuestion = {
+        question: question,
+        answers: [answer1, answer2, answer3, answer4],
+        correct: correctAnswer
+    };
+    
+    questionPool.push(newQuestion);
+    saveCustomQuestions();
+    
+    showFormMessage(`Question added successfully! Total questions: ${questionPool.length}`, 'success');
+    
+    displayMyQuestions();
+    updateCustomCount();
+    
+    event.target.reset();
 }
 
 function showResult(isCorrect, correctAnswer) {
@@ -262,39 +348,6 @@ function showScreen(screen) {
     screen.classList.add('active');
 }
 
-function handleQuestionSubmit(event) {
-    event.preventDefault();
-    
-    const question = document.getElementById('question').value;
-    const answer1 = document.getElementById('answer1').value;
-    const answer2 = document.getElementById('answer2').value;
-    const answer3 = document.getElementById('answer3').value;
-    const answer4 = document.getElementById('answer4').value;
-    const correctAnswer = parseInt(document.getElementById('correctAnswer').value) - 1;
-    
-    if (!question || !answer1 || !answer2 || !answer3 || !answer4 || isNaN(correctAnswer)) {
-        showFormMessage('Please fill in all fields and select the correct answer.', 'error');
-        return;
-    }
-    
-    const newQuestion = {
-        question: question,
-        answers: [answer1, answer2, answer3, answer4],
-        correct: correctAnswer
-    };
-    
-    questionPool.push(newQuestion);
-    saveCustomQuestions();
-    
-    showFormMessage('Question added successfully! Thank you for your contribution.', 'success');
-    event.target.reset();
-}
-
-function saveCustomQuestions() {
-    const customQuestions = questionPool.slice(15);
-    localStorage.setItem('customQuestions', JSON.stringify(customQuestions));
-}
-
 function showFormMessage(message, type) {
     const messageElement = document.getElementById('formMessage');
     messageElement.textContent = message;
@@ -307,10 +360,58 @@ function showFormMessage(message, type) {
     }
 }
 
+function updateCustomCount() {
+    const customCount = document.getElementById('customCount');
+    const questionsList = document.getElementById('myQuestionsList');
+    
+    if (customCount) {
+        const savedQuestions = localStorage.getItem('customQuestions');
+        if (savedQuestions) {
+            try {
+                const customQuestions = JSON.parse(savedQuestions);
+                customCount.textContent = customQuestions.length;
+                
+                if (customQuestions.length === 0) {
+                    questionsList.innerHTML = '<p class="question-item">No questions added yet.</p>';
+                }
+            } catch (error) {
+                customCount.textContent = '0';
+            }
+        } else {
+            customCount.textContent = '0';
+        }
+    }
+}
+
+function resetCustomQuestions() {
+    if (confirm('Are you sure you want to delete ALL custom questions? This cannot be undone.')) {
+        localStorage.removeItem('customQuestions');
+        
+        questionPool = questionPool.slice(0, 15);
+        
+        showFormMessage('All custom questions have been reset.', 'success');
+        
+        displayMyQuestions();
+        updateCustomCount();
+        
+    }
+}
+
+function initResetButton() {
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetCustomQuestions);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     
     if (document.getElementById('gameArea') || document.getElementById('questionForm')) {
         initGame();
     }
+    
+    displayMyQuestions();
+    updateCustomCount();
+    initResetButton();
 });

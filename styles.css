@@ -1517,3 +1517,63 @@ nav a.active::before {
     background: var(--gold);
     color: var(--rich-black);
 }
+
+.my-questions {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.my-questions h3 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+#myQuestionsList {
+    background: rgba(10, 10, 10, 0.7);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.question-item {
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    font-size: 0.9rem;
+}
+
+.question-item:last-child {
+    border-bottom: none;
+}
+
+.reset-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.reset-section h3 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.button.warning {
+    background: rgba(255, 69, 0, 0.2);
+    border-color: #ff4500;
+    color: #ff8c00;
+}
+
+.button.warning:hover {
+    background: rgba(255, 69, 0, 0.3);
+    border-color: #ff6347;
+    color: #ffa500;
+}
+
+.warning-text {
+    color: #ff8c00;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
